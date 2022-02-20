@@ -14,7 +14,9 @@ RUN dotnet publish Service/Service.csproj \
         --version-suffix ${VERSION} \
         -r linux-x64 \
         --self-contained false \
-        -o /app-publish
+        -o /app-publish || true \
+        && cat /app-src/Subproject/obj/Debug/netstandard2.0/Subproject.AssemblyInfo.cs \
+        && exit 1
 
 FROM mcr.microsoft.com/dotnet/aspnetcore-runtime:3.1 as publish
 WORKDIR /app
